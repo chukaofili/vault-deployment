@@ -1,0 +1,20 @@
+{
+    "CN": "vault.svc.cluster.local",
+    "hosts": [
+        "vault.svc.cluster.local",
+        "vault.vault.svc.cluster.local",
+        "vault.fieldinsight.co",
+        "127.0.0.1"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [{
+        "C": "NG",
+        "L": "Yaba",
+        "O": "Delivery Science",
+        "OU": "Software Unit",
+        "ST": "Lagos"
+    }]
+}

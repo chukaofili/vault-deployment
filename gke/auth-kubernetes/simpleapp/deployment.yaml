@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: simpleapp
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: simpleapp
+    spec:
+      serviceAccountName: vault-auth
+      containers:
+      - name: simpleapp
+        image: busybox
+        command: ['sh', '-c', 'echo The app is running! && export $(cat /etc/env-variables/secrets | xargs) && env && sleep 3600'] 
+        volumeMounts:
+        - name:  envconsul-secret
+          mountPath: "/etc/env-variables"
+      initContainers:
+      - name: init-env
+        image: chukaofili/envconsul-custom:1.1.6
+        env:
+        - name: APP_NAME
+          value: simpleapp
+        - name: APP_ENV
+          value: staging
+        - name: VAULT_SERVICE_HOST
+          value: vault.vault
+        - name: VAULT_SERVICE_PORT
+          value: "80"
+        - name: VAULT_SERVICE_ACCOUNT_ROLE
+          value: vault
+        - name: SECRET_FOLDER
+          value: env_secret
+        volumeMounts:
+        - name: envconsul-secret
+          mountPath: /env_secret
+      volumes:
+      - name: envconsul-secret
+        emptyDir: {}

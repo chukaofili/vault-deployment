@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault
+  namespace: kube-vault
+data:
+  vault.hcl: |
+    disable_mlock = true
+
+    listener "tcp" {
+      address = "0.0.0.0:8200"
+      tls_cert_file = "/etc/vault/tls/vault.pem"
+      tls_client_ca_file = "/etc/vault/tls/ca.pem"
+      tls_key_file = "/etc/vault/tls/vault-key.pem"
+    }
+
+    storage "consul" {
+      address = "127.0.0.1:8500"
+      path = "vault/"
+    }
