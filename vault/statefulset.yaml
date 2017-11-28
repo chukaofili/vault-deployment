@@ -26,7 +26,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: vault
-          image: "vault:0.8.2"
+          image: "vault:0.9.0"
           args:
             - "server"
             - "-config=/etc/vault/config/vault.hcl"
